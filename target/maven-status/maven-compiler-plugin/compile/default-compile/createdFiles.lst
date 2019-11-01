@@ -1,0 +1,5 @@
+com/mu/impl/Board.class
+com/mu/impl/Coordinate.class
+com/mu/impl/Moves.class
+com/mu/game/Game.class
+com/mu/impl/PossibleMoves.class
