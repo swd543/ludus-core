@@ -1,13 +1,11 @@
 package com.mu.impl;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import java.util.List;
 
 /**
  * This is the class that will house our board state logic.
  */
-public class Board implements PossibleMoves, Moves{
+public class Board implements PossibleMoves, Moves, Evaluate{
 
     public Board(){
         // insert constructor here
@@ -15,11 +13,16 @@ public class Board implements PossibleMoves, Moves{
 
     @Override
     public List<?> getPossibleMoves() {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException("This has not been implemented yet");
     }
 
     @Override
     public void move(Coordinate to, Coordinate from) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException("This has not been implemented yet");
+    }
+
+    @Override
+    public int evaluate() {
+        throw new UnsupportedOperationException("This has not been implemented yet");
     }
 }
