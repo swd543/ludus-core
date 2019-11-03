@@ -1,5 +1,5 @@
 package com.mu.impl;
 
 public interface Evaluate {
-    public int evaluate();
+    public coordinate evaluate(int[][] field);
 }
