@@ -1,5 +1,5 @@
 # ludus-core
-The core application for Ludus Latroncolurum.
+The core application for Ludus Latroncolurum. This was programmed with Java 11 and is unfortunately not backwards compatible.
 
 # Running
 This application was bootstrapped with maven.
