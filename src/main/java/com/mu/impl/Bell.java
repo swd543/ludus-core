@@ -1,7 +1,7 @@
 package com.mu.impl;
 
 public interface Bell {
-    public int[][] initBell(field);
-    public int[][] checkMovesBell(field);
-    public int[][] checkWinBell(field);
+    public int[][] initBell(int field);
+    public int[][] checkMovesBell(int field);
+    public int[][] checkWinBell(int field);
 }

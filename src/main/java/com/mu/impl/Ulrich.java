@@ -1,7 +1,7 @@
 package com.mu.impl;
 
 public interface Ulrich {
-    public int[][] initUlrich(field);
-    public int[][] checkMovesUlrich(field);
-    public int[][] checkWinUlrich(field);
+    public int[][] initUlrich(int field);
+    public int[][] checkMovesUlrich(int field);
+    public int[][] checkWinUlrich(int field);
 }
