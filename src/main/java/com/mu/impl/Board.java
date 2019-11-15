@@ -1,30 +1,34 @@
 package com.mu.impl;
 
-import java.util.ArrayList;
+import com.mu.pieces.*;
+
 import java.util.List;
+import java.util.Stack;
 
 /**
  * This is the class that will house our board state logic.
  */
-public class Board implements PossibleMoves, Moves, Evaluate, Bell, Ulrich{
+public class Board implements PossibleMoves, IMove, Evaluate, Bell, Ulrich{
 
-    int[][] field;      // the map
-                        // 0 = free
-                        // 1 = PlayerOneStone
-                        // 2 = PlayerTwoStone
-                        // 3 = Possible move for Player one
-                        // 4 = Possible move for player two
-    int width;
-    int height;
-    int moveCounter;
+    private Piece[][] field;    // the map
+                                // 0 = free
+                                // 1 = PlayerOneStone
+                                // 2 = PlayerTwoStone
+                                // 3 = Possible move for Player one
+                                // 4 = Possible move for player two
+    private Stack<IMove> history;
+    private int width;
+    private int height;
+    private int moveCounter;
     String ruleSet;     // ulrich / bell / kowalski
-    int playerTurn;     // 1 = Player One || 2 = Player Two
+    Players playerTurn;     // 1 = Player One || 2 = Player Two
 
-    List<int[][]> moveList;
+
 
     public Board(int width, int height, String ruleSet){
         this.width = width;
         this.height = height;
+        this.field=new Piece[width][height];
 
         if(ruleSet.equals("ulrich") || !ruleSet.equals("bell") || !ruleSet.equals("kowalski"))
             this.ruleSet = ruleSet;
@@ -40,9 +44,9 @@ public class Board implements PossibleMoves, Moves, Evaluate, Bell, Ulrich{
     // init field (also good for restart)
     public void init()
     {
-        playerTurn = 1;
-        field = new int[width][height];
-        moveList = new ArrayList<int[][]>();
+//        playerTurn = 1;
+//        field = new int[width][height];
+//        moveList = new ArrayList<int[][]>();
 
 //        for(int x = 0; x < field.length; x++) {
 //            for(int y = 0; < field[x].length; y++){
@@ -66,20 +70,29 @@ public class Board implements PossibleMoves, Moves, Evaluate, Bell, Ulrich{
         }
     }
 
+    public Board(int width, int height) {
+        this.width = width;
+        this.height = height;
+        this.field=new Piece[width][height];
+        this.moveCounter=0;
+        this.playerTurn= Players.White; //TODO: This needs to be configurable
+
+    }
+
     public void undo(){
-        if(moveCounter >= 1)
-        {
-            System.out.println("Undo");
-            field = moveList.get(moveCounter - 1);
-            moveList.remove(moveCounter);
-
-            if(playerTurn == 1)
-                playerTurn = 2;
-            else
-                playerTurn = 1;
-
-            moveCounter--;
-        }
+//        if(moveCounter >= 1)
+//        {
+//            System.out.println("Undo");
+//            field = moveList.get(moveCounter - 1);
+//            moveList.remove(moveCounter);
+//
+//            if(playerTurn == 1)
+//                playerTurn = 2;
+//            else
+//                playerTurn = 1;
+//
+//            moveCounter--;
+//        }
     }
 
     public int[][] possibleMoves(int[][] field)
@@ -235,5 +248,45 @@ public class Board implements PossibleMoves, Moves, Evaluate, Bell, Ulrich{
     @Override
     public int[][] checkWinUlrich(int field) {
         return new int[0][];
+    }
+
+    @Override
+    public String toString() {
+        return "Board{" +
+                "width=" + width +
+                ", height=" + height +
+                ", moveCounter=" + moveCounter +
+                ", ruleSet='" + ruleSet + '\'' +
+                ", playerTurn=" + playerTurn +
+                ", history=" + history +
+                ", field=\n" + getBoardRepresentation().toString() +
+                '}';
+    }
+
+    private StringBuffer getBoardRepresentation(){
+        return getBoardRepresentation(1);
+    }
+
+    private StringBuffer getBoardRepresentation(int spacing){
+        var boardRepresentation=new StringBuffer();
+        StringBuilder space= new StringBuilder();
+        for(var i=0;i<spacing;i++){
+            space.append(" ");
+        }
+        for(var i:field){
+            for(var j:i){
+                if (j instanceof Black)
+                    boardRepresentation.append("B");
+                else if(j instanceof White)
+                    boardRepresentation.append("W");
+                else if(j instanceof Dux)
+                    boardRepresentation.append("D");
+                else
+                    boardRepresentation.append("_");
+                boardRepresentation.append(space.toString());
+            }
+            boardRepresentation.append("\n");
+        }
+        return boardRepresentation;
     }
 }

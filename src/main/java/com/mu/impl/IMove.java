@@ -1,5 +1,5 @@
 package com.mu.impl;
 
-public interface Moves {
+public interface IMove {
     public void move(Coordinate to, Coordinate from);
 }
