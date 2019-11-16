@@ -9,7 +9,6 @@ import java.util.Stack;
  * This is the class that will house our board state logic.
  */
 public class Board implements PossibleMoves, IMove, Evaluate, Bell, Ulrich{
-
     private Piece[][] field;    // the map
                                 // 0 = free
                                 // 1 = PlayerOneStone
@@ -17,13 +16,15 @@ public class Board implements PossibleMoves, IMove, Evaluate, Bell, Ulrich{
                                 // 3 = Possible move for Player one
                                 // 4 = Possible move for player two
     private Stack<IMove> history;
+
+
+
     private int width;
     private int height;
     private int moveCounter;
     String ruleSet;     // ulrich / bell / kowalski
     Players playerTurn;     // 1 = Player One || 2 = Player Two
-
-
+    private List<Piece> pieces;
 
     public Board(int width, int height, String ruleSet){
         this.width = width;
@@ -76,7 +77,6 @@ public class Board implements PossibleMoves, IMove, Evaluate, Bell, Ulrich{
         this.field=new Piece[width][height];
         this.moveCounter=0;
         this.playerTurn= Players.White; //TODO: This needs to be configurable
-
     }
 
     public void undo(){
@@ -288,5 +288,16 @@ public class Board implements PossibleMoves, IMove, Evaluate, Bell, Ulrich{
             boardRepresentation.append("\n");
         }
         return boardRepresentation;
+    }
+
+    public Piece[][] getField() { return field; }
+    public int getWidth() { return width; }
+    public int getHeight() { return height; }
+    public List<Piece> getPieces() { return pieces; }
+    public void setPieces(List<Piece> pieces) {
+        this.pieces = pieces;
+        for(var p:pieces){
+            Coordinate.assign(getField(), p, p.getLocation());
+        }
     }
 }

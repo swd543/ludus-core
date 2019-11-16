@@ -7,7 +7,7 @@ public class Directions {
 //    static final Coordinate NORTHWEST=new Coordinate(-1,1);
     public static final Coordinate EAST=new Coordinate(-1,0);
     public static final Coordinate WEST=new Coordinate(1,0);
-    public static final Coordinate NORTH=new Coordinate(0,1);
-    public static final Coordinate SOUTH=new Coordinate(0,-1);
+    public static final Coordinate NORTH=new Coordinate(0,-1);
+    public static final Coordinate SOUTH=new Coordinate(0,1);
     public static final Coordinate[] ALL={EAST,WEST,NORTH,SOUTH};
 }
