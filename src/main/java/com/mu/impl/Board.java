@@ -8,7 +8,7 @@ import java.util.Stack;
 /**
  * This is the class that will house our board state logic.
  */
-public class Board implements PossibleMoves, IMove, Evaluate, Bell, Ulrich{
+public class Board implements PossibleMoves, IMove, Evaluate, Bell, Ulrich, Kowalski{
     private Piece[][] field;    // the map
                                 // 0 = free
                                 // 1 = PlayerOneStone
@@ -247,6 +247,21 @@ public class Board implements PossibleMoves, IMove, Evaluate, Bell, Ulrich{
 
     @Override
     public int[][] checkWinUlrich(int field) {
+        return new int[0][];
+    }
+
+    @Override
+    public int[][] initKowalski(int field) {
+        return new int[0][];
+    }
+
+    @Override
+    public int[][] checkMovesKowalski(int field) {
+        return new int[0][];
+    }
+
+    @Override
+    public int[][] checkWinKowalski(int field) {
         return new int[0][];
     }
 
