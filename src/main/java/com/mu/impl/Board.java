@@ -1,5 +1,6 @@
 package com.mu.impl;
 
+import com.mu.characteristics.Characteristics;
 import com.mu.pieces.*;
 
 import java.util.List;
@@ -15,16 +16,14 @@ public class Board implements PossibleMoves, IMove, Evaluate, Bell, Ulrich{
                                 // 2 = PlayerTwoStone
                                 // 3 = Possible move for Player one
                                 // 4 = Possible move for player two
-    private Stack<IMove> history;
-
-
-
+    private Stack<List<Coordinate>> history;
     private int width;
     private int height;
     private int moveCounter;
     String ruleSet;     // ulrich / bell / kowalski
     Players playerTurn;     // 1 = Player One || 2 = Player Two
     private List<Piece> pieces;
+    private Characteristics characteristics=new Characteristics();
 
     public Board(int width, int height, String ruleSet){
         this.width = width;
@@ -71,12 +70,25 @@ public class Board implements PossibleMoves, IMove, Evaluate, Bell, Ulrich{
         }
     }
 
+
     public Board(int width, int height) {
         this.width = width;
         this.height = height;
         this.field=new Piece[width][height];
         this.moveCounter=0;
         this.playerTurn= Players.White; //TODO: This needs to be configurable
+        this.history=new Stack<>();
+        this.characteristics=new Characteristics();
+    }
+
+    public Board(int width, int height, Characteristics characteristics) {
+        this.width = width;
+        this.height = height;
+        this.field=new Piece[width][height];
+        this.moveCounter=0;
+        this.playerTurn= Players.White; //TODO: This needs to be configurable
+        this.history=new Stack<>();
+        this.characteristics=characteristics;
     }
 
     public void undo(){
@@ -294,10 +306,21 @@ public class Board implements PossibleMoves, IMove, Evaluate, Bell, Ulrich{
     public int getWidth() { return width; }
     public int getHeight() { return height; }
     public List<Piece> getPieces() { return pieces; }
+    public Stack<List<Coordinate>> getHistory() { return history; }
+    public Characteristics getCharacteristics() { return characteristics; }
+
     public void setPieces(List<Piece> pieces) {
         this.pieces = pieces;
         for(var p:pieces){
             Coordinate.assign(getField(), p, p.getLocation());
         }
+    }
+
+    public boolean isValidCoordinate(Coordinate c){
+        return c.getX()>=0 && c.getY()>=0 && c.getX()<getWidth() && c.getY()<getHeight();
+    }
+
+    public boolean isFree(Coordinate c){
+        return Coordinate.get(field, c) == null;
     }
 }
