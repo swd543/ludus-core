@@ -1,3 +1,5 @@
+![](https://github.com/swd543/ludus-core/workflows/Java%20CI/badge.svg)
+
 # ludus-core
 The core application for Ludus Latroncolurum. This was programmed with Java 11 and is unfortunately not backwards compatible.
 
