@@ -3,6 +3,8 @@ package com.mu.pieces;
 import com.mu.impl.Board;
 import com.mu.impl.Coordinate;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class PrimaryPiece extends Piece {
@@ -10,9 +12,15 @@ public class PrimaryPiece extends Piece {
         super(board, location);
     }
 
-    @Override
-    public Set<Coordinate> getValidMoves() {
-        var characteristics=getBoard().getCharacteristics().getWhite();
-        return super.getValidMoves(characteristics.getDistance(), characteristics.canJump());
+    public Set<Coordinate> getValidMoves(){
+        return Set.of(Directions.ALL);
+    }
+
+    public List<Coordinate> getValidMoves(Coordinate from){
+        List<Coordinate> moves=new ArrayList<>();
+        for(var d:Directions.ALL){
+//            moves.add();
+        }
+        return moves;
     }
 }
