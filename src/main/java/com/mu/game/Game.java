@@ -6,6 +6,7 @@ import com.mu.pieces.Black;
 import com.mu.pieces.Directions;
 import com.mu.pieces.Piece;
 import com.mu.pieces.White;
+import com.mu.pieces.WhiteDux;
 
 import java.util.List;
 
@@ -17,8 +18,10 @@ public class Game {
         var game=new Board(8,8);
         System.out.println(game);
         List<Piece> pieces=List.of(
-                new White(game, new Coordinate(0,0)),
-                new Black(game, new Coordinate(4,4))
+                new White(game, new Coordinate(0,2)),
+                new Black(game, new Coordinate(4,4)),
+                new WhiteDux(game, new Coordinate(0,4))
+                //new BlackDux(game, new Coordinate(4,0))
         );
         game.setPieces(pieces);
         System.out.println(game);
