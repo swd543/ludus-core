@@ -5,14 +5,15 @@ import com.mu.impl.Coordinate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class PrimaryPiece extends Piece {
     public PrimaryPiece(Board board, Coordinate location) {
         super(board, location);
     }
 
-    public List<Coordinate> getValidMoves(){
-        return List.of(Directions.ALL);
+    public Set<Coordinate> getValidMoves(){
+        return Set.of(Directions.ALL);
     }
 
     public List<Coordinate> getValidMoves(Coordinate from){
