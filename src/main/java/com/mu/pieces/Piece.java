@@ -49,9 +49,7 @@ public class Piece {
                 var newCoordinate=location.clone().add(delta);
                 if (board.isValidCoordinate(newCoordinate) && board.isFree(newCoordinate))
                     possible.add(newCoordinate);
-                else if(jumpAllowed) {
-
-                }
+//                else if(jumpAllowed) {  }
                 else
                     break;
             }

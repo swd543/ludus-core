@@ -12,15 +12,10 @@ public class PrimaryPiece extends Piece {
         super(board, location);
     }
 
-    public Set<Coordinate> getValidMoves(){
-        return Set.of(Directions.ALL);
-    }
-
-    public List<Coordinate> getValidMoves(Coordinate from){
-        List<Coordinate> moves=new ArrayList<>();
-        for(var d:Directions.ALL){
-//            moves.add();
-        }
-        return moves;
+    // Moves possible is any number in the vertical or any number in the horizontal
+    @Override
+    public Set<Coordinate> getValidMoves() {
+        var characteristics=getBoard().getCharacteristics().getWhite();
+        return super.getValidMoves(characteristics.getDistance(), characteristics.canJump());
     }
 }
