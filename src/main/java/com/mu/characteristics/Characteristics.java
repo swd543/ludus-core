@@ -15,6 +15,7 @@ public class Characteristics {
         this.dux = dux;
     }
 
+    // test
     public Characteristics(){}
 
     private Movement black=new Movement();
