@@ -4,6 +4,10 @@ import com.mu.game.piece.PieceType;
 
 public class Characteristics {
     private final int height, width;
+
+    /**
+     * The number of pieces INCLUDING DUX
+     */
     private final int piecesPerPlayer;
     private final boolean hasDux;
     private final Movement black, white, dux;
@@ -55,6 +59,16 @@ public class Characteristics {
                         new Movement().setCanJump(true).setDistanceCanMove(1),
                         PieceType.WHITE,
                         17,
+                        true,
+                        false
+                );
+            case Kowalski:
+                return new Characteristics(8,12,
+                        new Movement().setCanJump(false).setNumberOfJumps(0).setDistanceCanMove(Integer.MAX_VALUE),
+                        new Movement().setCanJump(false).setNumberOfJumps(0).setDistanceCanMove(Integer.MAX_VALUE),
+                        new Movement().setCanJump(false).setNumberOfJumps(0).setDistanceCanMove(Integer.MAX_VALUE),
+                        PieceType.WHITE,
+                        13,
                         true,
                         false
                 );

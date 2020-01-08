@@ -53,15 +53,19 @@ public class Ludii {
     public void reset(){
         board.reset();
         if (!getBoard().getCharacteristics().isManuallySetPieces()){
-            isAllPiecesSet = true;
-            for (int i=0; i<12; i++){
+            isAllPiecesSet = false;
+            setDux=true;
+            for (var i=0; i<board.getCharacteristics().getPiecesPerPlayer(); i++){
                 board.set(new Coordinate(i,0), PieceType.BLACK, true);
-                board.set(new Coordinate(i,7), PieceType.WHITE, true);
+                board.set(new Coordinate(i,board.getCharacteristics().getHeight()-1), PieceType.WHITE, true);
             }
+            board.set(new Coordinate(board.getCharacteristics().getWidth()/2-1, 1), PieceType.BLACKDUX, true);
+            board.set(new Coordinate(board.getCharacteristics().getWidth()/2,board.getCharacteristics().getHeight()-2), PieceType.WHITEDUX, true);
+        } else {
+            isAllPiecesSet=false;
+            setDux=false;
         }
         playerToMove=board.getCharacteristics().getStartingPlayer();
-        isAllPiecesSet=false;
-        setDux=false;
     }
 
     public void switchPlayer(){

@@ -32,18 +32,19 @@ public class Game {
 
     public static void main(String[] args) throws Exception {
 //        var board=new Board(new Characteristics(20,20));
-        var board=new Board(Characteristics.getCharacteristics(Ruleset.Bell));
+        var board=new Board(Characteristics.getCharacteristics(Ruleset.Kowalski));
         System.out.println(board.getBlacks());
         var ludus=new Ludii(board);
         System.out.println(ludus);
         var display=new Display(ludus);
-        for(var i=0;i<2*ludus.getBoard().getCharacteristics().getPiecesPerPlayer();i++){
-            var randomCoordinate= Coordinate.random(ludus.getBoard().getCharacteristics());
-            while (!ludus.addPiece(randomCoordinate)) { randomCoordinate= Coordinate.random(ludus.getBoard().getCharacteristics()); }
-            System.out.println(i+"-->"+ludus.getBoard()+" blacks-->"+board.getBlacks().count()+" white-->"+board.getWhites().count());
-            display.resync();
-            Thread.sleep(100);
-        }
+//        for(var i=0;i<2*ludus.getBoard().getCharacteristics().getPiecesPerPlayer();i++){
+//            var randomCoordinate= Coordinate.random(ludus.getBoard().getCharacteristics());
+//            while (!ludus.addPiece(randomCoordinate)) { randomCoordinate= Coordinate.random(ludus.getBoard().getCharacteristics()); }
+//            System.out.println(i+"-->"+ludus.getBoard()+" blacks-->"+board.getBlacks().count()+" white-->"+board.getWhites().count());
+//            display.resync();
+//            Thread.sleep(100);
+//        }
+        display.resync();
         System.out.println("Done");
     }
 }

@@ -4,10 +4,7 @@ import com.mu.game.characteristics.Characteristics;
 import com.mu.game.characteristics.Movement;
 import com.mu.game.piece.*;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
@@ -90,10 +87,12 @@ public class Board implements IBoard {
         Set<Coordinate> set=new HashSet<>();
         try{
             var movement=getCharacteristics(getPieceAt(from));
-            for(var i=1;i<=movement.getDistanceCanMove();i++){
-                for(var c:Coordinate.DIRECTIONS){
+            for(var c:Coordinate.DIRECTIONS){
+                for(var i=1;i<=movement.getDistanceCanMove();i++){
                     var newCoord=c.multiply(i).add(from);
-                    if(newCoord.isValidIndex(this) && !isOccupied(newCoord)){ set.add(newCoord); }
+                    var isValid=newCoord.isValidIndex(this) && !isOccupied(newCoord);
+                    if(isValid){ set.add(newCoord); }
+                    else break;
                 }
             }
             // Find jump moves only if piece can jump and distance to move is 1, multiple moves and jumps undefined!
