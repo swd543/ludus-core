@@ -8,12 +8,13 @@ public class Characteristics {
     private final boolean hasDux;
     private final Movement black, white, dux;
     private final PieceType startingPlayer;
+    private final boolean manuallySetPieces;
 
     public Characteristics() { this(8,8); }
 
-    public Characteristics(int height, int width) { this(height, width, new Movement(), new Movement(), new Movement(), PieceType.WHITE, 8, false); }
+    public Characteristics(int height, int width) { this(height, width, new Movement(), new Movement(), new Movement(), PieceType.WHITE, 8, false, true); }
 
-    public Characteristics(int height, int width, Movement black, Movement white, Movement dux, PieceType startingPlayer, int piecesPerPlayer, boolean hasDux) {
+    public Characteristics(int height, int width, Movement black, Movement white, Movement dux, PieceType startingPlayer, int piecesPerPlayer, boolean hasDux, boolean manuallySetPieces) {
         this.height = height;
         this.width = width;
         this.black = black;
@@ -22,6 +23,7 @@ public class Characteristics {
         this.startingPlayer=startingPlayer;
         this.piecesPerPlayer=piecesPerPlayer;
         this.hasDux=hasDux;
+        this.manuallySetPieces=manuallySetPieces;
     }
 
     public int getHeight() { return height; }
@@ -40,6 +42,8 @@ public class Characteristics {
 
     public boolean hasDux() { return hasDux; }
 
+    public boolean isManuallySetPieces() { return manuallySetPieces; }
+
     public static Characteristics getCharacteristics(Ruleset ruleset){
         switch (ruleset){
             case Ulrich:
@@ -48,8 +52,10 @@ public class Characteristics {
                         new Movement(),
                         new Movement().setCanJump(false).setCanMoveDiagonal(false).setDistanceCanMove(Integer.MAX_VALUE).setNumberOfJumps(0),
                         PieceType.WHITE,
-                        16,
-                        false); // 16-24
+                        16, // 16-24
+                        false,
+                        true
+                );
             case Bell:
                 return new Characteristics(7,8,
                         new Movement().setCanJump(false).setNumberOfJumps(0),
@@ -57,7 +63,9 @@ public class Characteristics {
                         new Movement().setCanJump(true).setDistanceCanMove(1),
                         PieceType.WHITE,
                         17,
-                        true); // 16-24
+                        true,
+                        false
+                );
             default:
                 throw new UnsupportedOperationException(ruleset+" is not implemented yet. Please bear with us or use another ruleset!");
         }
