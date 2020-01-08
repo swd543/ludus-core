@@ -5,7 +5,7 @@ import java.awt.*;
 public enum PieceType {
     WHITE("W", Color.WHITE),
     BLACK("B", Color.BLACK),
-    WHITEDUX("WD", Color.BLUE.brighter().brighter()),
+    WHITEDUX("WD", Color.BLUE.brighter().brighter().brighter().brighter().brighter()),
     BLACKDUX("BD", Color.BLUE.darker().darker());
 
     private final String alias;

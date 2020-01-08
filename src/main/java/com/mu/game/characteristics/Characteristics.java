@@ -38,7 +38,7 @@ public class Characteristics {
 
     public int getPiecesPerPlayer() { return piecesPerPlayer; }
 
-    public boolean isHasDux() { return hasDux; }
+    public boolean hasDux() { return hasDux; }
 
     public static Characteristics getCharacteristics(Ruleset ruleset){
         switch (ruleset){
@@ -59,7 +59,7 @@ public class Characteristics {
                         17,
                         true); // 16-24
             default:
-                return new Characteristics();
+                throw new UnsupportedOperationException(ruleset+" is not implemented yet. Please bear with us or use another ruleset!");
         }
     }
 }

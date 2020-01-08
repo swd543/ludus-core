@@ -15,6 +15,7 @@ public class GameFrame extends JPanel {
     private final Ludii game;
     private final JButton[][] buttonMap;
     private GameStatsPanel gameStatsPanel;
+    private JLabel messageArea;
 
     public GameFrame(final Ludii game){
         this(game, null);
@@ -88,10 +89,13 @@ public class GameFrame extends JPanel {
 
         setup(statsArea, area->{
             area.setLayout(new BoxLayout(area, BoxLayout.Y_AXIS));
-            area.add(new JLabel("Move history"));
+            messageArea=new JLabel(game.getPlayerToMove()+" to move");
+            area.add(messageArea);
             area.add(new JButton("Popp"));
             return null;
         });
+
+        resync();
 
         add(statsArea);
         add(gameArea);
@@ -113,6 +117,8 @@ public class GameFrame extends JPanel {
                 }
                 finally {
                     button.repaint();
+                    messageArea.setText(game.getPlayerToMove().toString()+" to move");
+                    messageArea.repaint();
                 }
             }
         }

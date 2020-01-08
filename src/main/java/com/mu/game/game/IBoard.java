@@ -51,7 +51,6 @@ public interface IBoard {
      */
     void reset();
 
-
     /**
      * Get the characteristics this board adheres to
      * @return characteristics

@@ -6,6 +6,7 @@ import com.mu.game.display.GameFrame;
 import com.mu.game.game.Board;
 import com.mu.game.game.Ludii;
 import com.mu.game.piece.Coordinate;
+import com.mu.game.piece.PieceType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,12 +32,12 @@ public class Game {
 
     public static void main(String[] args) throws Exception {
 //        var board=new Board(new Characteristics(20,20));
-        var board=new Board(Characteristics.getCharacteristics(Ruleset.Kowalski));
+        var board=new Board(Characteristics.getCharacteristics(Ruleset.Bell));
         System.out.println(board.getBlacks());
         var ludus=new Ludii(board);
         System.out.println(ludus);
         var display=new Display(ludus);
-        for(var i=0;i<2*ludus.getBoard().getCharacteristics().getPiecesPerPlayer();i++){
+        for(var i=0;i<2*ludus.getBoard().getCharacteristics().getPiecesPerPlayer()-2;i++){
             var randomCoordinate= Coordinate.random(ludus.getBoard().getCharacteristics());
             while (!ludus.addPiece(randomCoordinate)) { randomCoordinate= Coordinate.random(ludus.getBoard().getCharacteristics()); }
             System.out.println(i+"-->"+ludus.getBoard()+" blacks-->"+board.getBlacks().count()+" white-->"+board.getWhites().count());

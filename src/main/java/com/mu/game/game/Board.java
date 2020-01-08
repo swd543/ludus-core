@@ -50,6 +50,7 @@ public class Board implements IBoard {
         if(blacks.at(location)) return PieceType.BLACK;
         else if(whites.at(location)) return PieceType.WHITE;
         else if(blackDuxes.at(location)) return PieceType.BLACKDUX;
+        else if(whiteDuxes.at(location)) return PieceType.WHITEDUX;
         else return null;
     }
 
@@ -59,8 +60,8 @@ public class Board implements IBoard {
             switch (pieceType){
                 case BLACK: blacks.setAt(coordinate, set); break;
                 case WHITE: whites.setAt(coordinate, set); break;
-                case BLACKDUX:
-                case WHITEDUX: blackDuxes.setAt(coordinate, set); break;
+                case BLACKDUX: blackDuxes.setAt(coordinate, set); break;
+                case WHITEDUX: whiteDuxes.setAt(coordinate, set); break;
             }
             return true;
         } else { return false; }
@@ -82,6 +83,7 @@ public class Board implements IBoard {
     public void reset(){
         this.blacks= new Blacks(characteristics.getWidth(), characteristics.getHeight(), this);
         this.whites= new Whites(characteristics.getWidth(), characteristics.getHeight(), this);
+        this.whiteDuxes = new Duxes(characteristics.getWidth(), characteristics.getHeight(), this);
         this.blackDuxes = new Duxes(characteristics.getWidth(), characteristics.getHeight(), this);
     }
 
