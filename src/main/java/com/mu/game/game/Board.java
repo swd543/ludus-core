@@ -19,11 +19,8 @@ public class Board implements IBoard {
     private final Characteristics characteristics;
 
     public Blacks getBlacks() { return blacks; }
-
     public Whites getWhites() { return whites; }
-
     public Duxes getBlackDuxes() { return blackDuxes; }
-
     public Duxes getWhiteDuxes() { return blackDuxes; }
 
     public Board(Characteristics characteristics) {
@@ -38,8 +35,9 @@ public class Board implements IBoard {
             case BLACK:
                 return getBlacks();
             case BLACKDUX:
-            case WHITEDUX:
                 return getBlackDuxes();
+            case WHITEDUX:
+                return getWhiteDuxes();
             default:
                 return getWhites();
         }
@@ -109,9 +107,7 @@ public class Board implements IBoard {
     public String getBoardDisplay(){
         var sb=new StringBuilder();
         for(var i=0;i<characteristics.getHeight();i++){
-            for(var j=0;j<characteristics.getWidth();j++){
-                sb.append(String.format("%-5s", getPieceAt(new Coordinate(j, i))));
-            }
+            for(var j=0;j<characteristics.getWidth();j++){ sb.append(String.format("%-5s", getPieceAt(new Coordinate(j, i)))); }
             sb.append("\n");
         }
         sb.setLength(sb.length()-1);

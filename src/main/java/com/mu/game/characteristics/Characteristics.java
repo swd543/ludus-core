@@ -27,21 +27,13 @@ public class Characteristics {
     }
 
     public int getHeight() { return height; }
-
     public int getWidth() { return width; }
-
     public Movement getBlack() { return black; }
-
     public Movement getWhite() { return white; }
-
     public Movement getDux() { return dux; }
-
     public PieceType getStartingPlayer() { return startingPlayer; }
-
     public int getPiecesPerPlayer() { return piecesPerPlayer; }
-
     public boolean hasDux() { return hasDux; }
-
     public boolean isManuallySetPieces() { return manuallySetPieces; }
 
     public static Characteristics getCharacteristics(Ruleset ruleset){
