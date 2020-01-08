@@ -104,6 +104,29 @@ public class Board implements IBoard {
         return set;
     }
 
+    @Override
+    public Map<Coordinate, PieceType> getNeighbours(Coordinate from, BiPredicate<PieceType, PieceType> filter){
+        return getNeighbours(from, filter, coordinate -> true);
+    }
+
+    @Override
+    public Map<Coordinate, PieceType> getNeighbours(Coordinate from, BiPredicate<PieceType, PieceType> filter, Predicate<Coordinate> direction){
+        var map=new HashMap<Coordinate, PieceType>();
+        var piece=getPieceAt(from);
+        for(var d:Coordinate.DIRECTIONS){
+            if(direction.test(d)) continue;
+            var newCoordinate=d.add(from);
+            if(!newCoordinate.isValidIndex(this)) continue;
+            try{
+                var newPiece=getPieceAt(newCoordinate);
+                if(filter.test(piece, newPiece)){
+                    map.put(newCoordinate, newPiece);
+                }
+            } catch (ArrayIndexOutOfBoundsException ignored) { }
+        }
+        return map;
+    }
+
     public String getBoardDisplay(){
         var sb=new StringBuilder();
         for(var i=0;i<characteristics.getHeight();i++){
@@ -129,27 +152,6 @@ public class Board implements IBoard {
     }
 
     public boolean isOccupied(Coordinate location){ return blacks.at(location)||whites.at(location)|| blackDuxes.at(location); }
-
-    public Map<Coordinate, PieceType> getNeighbours(Coordinate from, BiPredicate<PieceType, PieceType> filter){
-        return getNeighbours(from, filter, coordinate -> true);
-    }
-
-    public Map<Coordinate, PieceType> getNeighbours(Coordinate from, BiPredicate<PieceType, PieceType> filter, Predicate<Coordinate> direction){
-        var map=new HashMap<Coordinate, PieceType>();
-        var piece=getPieceAt(from);
-        for(var d:Coordinate.DIRECTIONS){
-            if(direction.test(d)) continue;
-            var newCoord=d.add(from);
-            if(!newCoord.isValidIndex(this)) continue;
-            try{
-                var newPiece=getPieceAt(newCoord);
-                if(filter.test(piece, newPiece)){
-                    map.put(newCoord, newPiece);
-                }
-            } catch (ArrayIndexOutOfBoundsException ignored) { }
-        }
-        return map;
-    }
 
     public Characteristics getCharacteristics() { return characteristics; }
     public Movement getCharacteristics(PieceType p) {

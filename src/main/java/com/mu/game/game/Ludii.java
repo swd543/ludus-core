@@ -26,6 +26,7 @@ public class Ludii {
      * Add a piece as per the ruleset, to the location
      * @param coordinate
      * @return whether piece was set
+     * @throws BadMoveException if add piece is not allowed
      */
     public boolean addPiece(Coordinate coordinate){
         var characteristics=board.getCharacteristics();

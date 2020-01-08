@@ -5,7 +5,10 @@ import com.mu.game.piece.Coordinate;
 import com.mu.game.piece.PieceType;
 import com.mu.game.piece.Pieces;
 
+import java.util.Map;
 import java.util.Set;
+import java.util.function.BiPredicate;
+import java.util.function.Predicate;
 
 public interface IBoard {
 
@@ -56,4 +59,21 @@ public interface IBoard {
      * @return characteristics
      */
     Characteristics getCharacteristics();
+
+    /**
+     * Get the neighbours based upon a filter logic
+     * @param from
+     * @param filter
+     * @return
+     */
+    Map<Coordinate, PieceType> getNeighbours(Coordinate from, BiPredicate<PieceType, PieceType> filter);
+
+    /**
+     * Get the neighbours based upon a filter logic and direction
+     * @param from
+     * @param filter
+     * @param direction
+     * @return
+     */
+    Map<Coordinate, PieceType> getNeighbours(Coordinate from, BiPredicate<PieceType, PieceType> filter, Predicate<Coordinate> direction);
 }
