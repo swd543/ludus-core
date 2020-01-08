@@ -14,6 +14,7 @@ public class Ludii {
     public Ludii(IBoard board, PieceType playerToMove) {
         this.board = board;
         this.playerToMove = playerToMove;
+        reset();
     }
 
     public Ludii(Characteristics characteristics, PieceType playerToMove){ this(new Board(characteristics), playerToMove); }
@@ -51,6 +52,13 @@ public class Ludii {
 
     public void reset(){
         board.reset();
+        if (!getBoard().getCharacteristics().isManuallySetPieces()){
+            isAllPiecesSet = true;
+            for (int i=0; i<12; i++){
+                board.set(new Coordinate(i,0), PieceType.BLACK, true);
+                board.set(new Coordinate(i,7), PieceType.WHITE, true);
+            }
+        }
         playerToMove=board.getCharacteristics().getStartingPlayer();
         isAllPiecesSet=false;
         setDux=false;
