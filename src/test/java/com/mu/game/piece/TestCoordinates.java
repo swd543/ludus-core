@@ -11,7 +11,7 @@ public class TestCoordinates {
     @Test
     public void testAccess() throws CloneNotSupportedException {
         var height=100;
-        var width=80;
+        var width=100;
         var characteristics=new Characteristics(height, width);
         var board=new Board(characteristics);
         var previous=board.getBlacks().clone();
