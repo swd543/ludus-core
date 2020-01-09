@@ -31,6 +31,19 @@ public enum PieceType {
         }
     }
 
+    public PieceType getPrimary(){
+        switch (this){
+            case WHITE:
+            case WHITEDUX:
+                return WHITE;
+            case BLACK:
+            case BLACKDUX:
+                return BLACK;
+            default:
+                return null;
+        }
+    }
+
     @Override
     public String toString() { return alias; }
 }
