@@ -18,7 +18,7 @@ public class Board implements IBoard {
     public Blacks getBlacks() { return blacks; }
     public Whites getWhites() { return whites; }
     public Duxes getBlackDuxes() { return blackDuxes; }
-    public Duxes getWhiteDuxes() { return blackDuxes; }
+    public Duxes getWhiteDuxes() { return whiteDuxes; }
 
     public Board(Characteristics characteristics) {
         if(characteristics.getHeight()>characteristics.getWidth()) throw new UnsupportedOperationException("Boards with height > width still not supported by this program!");
