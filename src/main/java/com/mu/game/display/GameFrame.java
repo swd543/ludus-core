@@ -16,6 +16,8 @@ public class GameFrame extends JPanel {
     private final JButton[][] buttonMap;
     private GameStatsPanel gameStatsPanel;
     private JLabel messageArea;
+    private Set<Coordinate> moves=new HashSet<>();
+    private Coordinate from=null;
 
     public GameFrame(final Ludii game){
         this(game, null);
@@ -50,26 +52,29 @@ public class GameFrame extends JPanel {
                     var p= game.getBoard().getPieceAt(c);
                     JButton button=new JButton(c.toString());
                     button.addActionListener(action->{
-                        game.addPiece(c);
-                        var piece= game.getBoard().getPieceAt(c);
-                        button.setBackground(piece.getColor());
-                        button.repaint();
+                        if(moves.isEmpty()){
+                            game.addPiece(c);
+                            var piece= game.getBoard().getPieceAt(c);
+                            button.setBackground(piece.getColor());
+                            button.repaint();
+                        } else if(moves.contains(c)){
+                            game.move(c, from);
+                            resync();
+                        }
+                        System.out.println(game.getBoard());
                     });
                     button.addFocusListener(new FocusListener() {
-                        private Set<Coordinate> moves=new HashSet<>();
                         @Override
                         public void focusGained(FocusEvent focusEvent) {
                             moves= game.getBoard().getValidMoves(c);
-                            for(var t:moves){
-                                buttonMap[t.getY()][t.getX()].setBorder(BorderFactory.createLineBorder(Color.YELLOW));
-                            }
+                            from=c;
+                            for(var t:moves){ buttonMap[t.getY()][t.getX()].setBorder(BorderFactory.createLineBorder(Color.YELLOW)); }
                         }
 
                         @Override
                         public void focusLost(FocusEvent focusEvent) {
-                            for(var t:moves){
-                                buttonMap[t.getY()][t.getX()].setBorder(new JButton().getBorder());
-                            }
+                            for(var t:moves){ buttonMap[t.getY()][t.getX()].setBorder(new JButton().getBorder()); }
+                            moves.removeAll(moves);
                         }
                     });
                     try{
