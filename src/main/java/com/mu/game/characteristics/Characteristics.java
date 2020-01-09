@@ -60,7 +60,7 @@ public class Characteristics {
                         PieceType.WHITE,
                         17,
                         true,
-                        false
+                        true
                 );
             case Kowalski:
                 return new Characteristics(8,12,

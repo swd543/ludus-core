@@ -46,8 +46,10 @@ public class Ludii {
 
     public boolean move(Coordinate to, Coordinate from){
         var player=board.getPieceAt(from);
-        if(player!=playerToMove) throw new BadMoveException();
-        return board.move(to, from);
+        if(player.getPrimary()!=playerToMove) throw new BadMoveException();
+        var moved=board.move(to, from);
+        if(moved){switchPlayer();}
+        return moved;
     }
 
     public void reset(){

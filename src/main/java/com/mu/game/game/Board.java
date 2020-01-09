@@ -51,7 +51,8 @@ public class Board implements IBoard {
 
     @Override
     public boolean set(Coordinate coordinate, PieceType pieceType, boolean set){
-        if(coordinate.isValidIndex(this) && !isOccupied(coordinate)){
+        var isOccupied=isOccupied(coordinate);
+        if(coordinate.isValidIndex(this) && (isOccupied^set)){
             switch (pieceType){
                 case BLACK: blacks.setAt(coordinate, set); break;
                 case WHITE: whites.setAt(coordinate, set); break;
@@ -150,7 +151,7 @@ public class Board implements IBoard {
         }));
     }
 
-    public boolean isOccupied(Coordinate location){ return blacks.at(location)||whites.at(location)|| blackDuxes.at(location); }
+    public boolean isOccupied(Coordinate location){ return blacks.at(location) || whites.at(location) || blackDuxes.at(location) || whiteDuxes.at(location); }
 
     public Characteristics getCharacteristics() { return characteristics; }
     public Movement getCharacteristics(PieceType p) {

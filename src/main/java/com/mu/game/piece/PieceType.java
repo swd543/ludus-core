@@ -18,27 +18,31 @@ public enum PieceType {
 
     public Color getColor() { return color; }
     public String getAlias() { return alias; }
-    public PieceType getDux(){
-        switch (this){
-            case WHITE:
-            case WHITEDUX:
-                return WHITEDUX;
-            case BLACK:
-            case BLACKDUX:
-                return BLACKDUX;
-            default:
-                return null;
-        }
-    }
 
-    public PieceType getPrimary(){
+    /**
+     * Get dux of the piece type regardless of the player
+     * white/whitedux=>whitedux
+     * black/blackdux=>blackdux
+     * @return dux
+     */
+    public PieceType getDux(){ return getPieceType(WHITEDUX, BLACKDUX); }
+
+    /**
+     * Get primary color of the piece type regardless of the player
+     * white/whitedux=>white
+     * black/blackdux=>black
+     * @return primaryPiece
+     */
+    public PieceType getPrimary(){ return getPieceType(WHITE, BLACK); }
+
+    private PieceType getPieceType(PieceType white, PieceType black) {
         switch (this){
             case WHITE:
             case WHITEDUX:
-                return WHITE;
+                return white;
             case BLACK:
             case BLACKDUX:
-                return BLACK;
+                return black;
             default:
                 return null;
         }
