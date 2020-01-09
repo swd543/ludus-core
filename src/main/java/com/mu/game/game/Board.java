@@ -6,6 +6,7 @@ import com.mu.game.piece.*;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
@@ -105,23 +106,39 @@ public class Board implements IBoard {
     }
 
     @Override
+    public Map<Coordinate, PieceType> getNeighbours(Coordinate from){
+        return getNeighbours(from, (a,b)-> b!=null);
+    }
+
+    @Override
+    public Map<Coordinate, PieceType> getNeighbours(Coordinate from, boolean absoluteCoordinate){
+        return getNeighbours(from, (a,b)-> b!=null, coordinate -> false, absoluteCoordinate);
+    }
+
+    @Override
     public Map<Coordinate, PieceType> getNeighbours(Coordinate from, BiPredicate<PieceType, PieceType> filter){
-        return getNeighbours(from, filter, coordinate -> true);
+        return getNeighbours(from, filter, coordinate -> false);
     }
 
     @Override
     public Map<Coordinate, PieceType> getNeighbours(Coordinate from, BiPredicate<PieceType, PieceType> filter, Predicate<Coordinate> direction){
+        return getNeighbours(from, filter, direction, true);
+    }
+
+    @Override
+    public Map<Coordinate, PieceType> getNeighbours(Coordinate from, BiPredicate<PieceType, PieceType> filter, Predicate<Coordinate> direction, boolean absoluteCoordinate){
         var map=new HashMap<Coordinate, PieceType>();
         var piece=getPieceAt(from);
+        BiFunction<Coordinate, Coordinate, Coordinate> coordinateGetter=absoluteCoordinate?
+                (absolutePosition, relativePosition)-> absolutePosition:
+                (absolutePosition, relativePosition)-> relativePosition;
         for(var d:Coordinate.DIRECTIONS){
             if(direction.test(d)) continue;
             var newCoordinate=d.add(from);
             if(!newCoordinate.isValidIndex(this)) continue;
             try{
                 var newPiece=getPieceAt(newCoordinate);
-                if(filter.test(piece, newPiece)){
-                    map.put(newCoordinate, newPiece);
-                }
+                if(filter.test(piece, newPiece)){ map.put(coordinateGetter.apply(newCoordinate, d), newPiece); }
             } catch (ArrayIndexOutOfBoundsException ignored) { }
         }
         return map;

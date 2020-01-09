@@ -61,19 +61,43 @@ public interface IBoard {
     Characteristics getCharacteristics();
 
     /**
+     * Get the neighbours of a piece
+     * @param from the coordinate relative to which the neighbours are returned
+     * @return neighbours
+     */
+    Map<Coordinate, PieceType> getNeighbours(Coordinate from);
+
+    /**
+     * Get the neighbours of a piece
+     * @param from the coordinate relative to which the neighbours are returned
+     * @param absoluteCoordinate the direction function, accepting (direction)->logic
+     * @return neighbours
+     */
+    Map<Coordinate, PieceType> getNeighbours(Coordinate from, boolean absoluteCoordinate);
+
+    /**
      * Get the neighbours based upon a filter logic
-     * @param from
-     * @param filter
-     * @return
+     * @param from the coordinate relative to which the neighbours are returned
+     * @param filter the filter function, accepting (currentCoordinate, newCoordinate)->logic
+     * @return neighbours
      */
     Map<Coordinate, PieceType> getNeighbours(Coordinate from, BiPredicate<PieceType, PieceType> filter);
 
     /**
      * Get the neighbours based upon a filter logic and direction
-     * @param from
-     * @param filter
-     * @param direction
-     * @return
+     * @param from the coordinate relative to which the neighbours are returned
+     * @param filter the filter function, accepting (currentCoordinate, newCoordinate)->logic
+     * @param direction the direction function, accepting (direction)->logic
+     * @return neighbours
      */
     Map<Coordinate, PieceType> getNeighbours(Coordinate from, BiPredicate<PieceType, PieceType> filter, Predicate<Coordinate> direction);
+
+    /**
+     * @param from the coordinate relative to which the neighbours are returned
+     * @param filter the filter function, accepting (currentCoordinate, newCoordinate)->logic
+     * @param direction the direction function, accepting (direction)->logic
+     * @param absoluteCoordinate return position relative to from (false) or absolute position
+     * @return
+     */
+    Map<Coordinate, PieceType> getNeighbours(Coordinate from, BiPredicate<PieceType, PieceType> filter, Predicate<Coordinate> direction, boolean absoluteCoordinate);
 }

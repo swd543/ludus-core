@@ -7,8 +7,8 @@ import java.util.Objects;
 import java.util.Random;
 
 public class Coordinate {
-    public static final Coordinate NORTH=new Coordinate(0,1);
-    public static final Coordinate SOUTH=new Coordinate(0,-1);
+    public static final Coordinate NORTH=new Coordinate(0,-1);
+    public static final Coordinate SOUTH=new Coordinate(0,1);
     public static final Coordinate EAST=new Coordinate(-1,0);
     public static final Coordinate WEST=new Coordinate(1,0);
     public static final Coordinate[] DIRECTIONS=new Coordinate[]{ EAST, WEST, NORTH, SOUTH };

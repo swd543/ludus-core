@@ -73,7 +73,6 @@ public class GameFrame extends JPanel {
                                 from=c;
                                 for(var t:moves){ buttonMap[t.getY()][t.getX()].setBorder(BorderFactory.createLineBorder(Color.YELLOW)); }
                             }
-
                         }
 
                         @Override
