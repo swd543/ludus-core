@@ -61,20 +61,24 @@ public class GameFrame extends JPanel {
                             game.move(c, from);
                             resync();
                         }
+
                         System.out.println(game.getBoard());
                     });
                     button.addFocusListener(new FocusListener() {
                         @Override
                         public void focusGained(FocusEvent focusEvent) {
-                            moves= game.getBoard().getValidMoves(c);
-                            from=c;
-                            for(var t:moves){ buttonMap[t.getY()][t.getX()].setBorder(BorderFactory.createLineBorder(Color.YELLOW)); }
+                            var x=game.getBoard().getPieceAt(c);
+                            if (null != x) {
+                                moves= game.getBoard().getValidMoves(c);
+                                from=c;
+                                for(var t:moves){ buttonMap[t.getY()][t.getX()].setBorder(BorderFactory.createLineBorder(Color.YELLOW)); }
+                            }
+
                         }
 
                         @Override
                         public void focusLost(FocusEvent focusEvent) {
                             for(var t:moves){ buttonMap[t.getY()][t.getX()].setBorder(new JButton().getBorder()); }
-                            moves.removeAll(moves);
                         }
                     });
                     try{
