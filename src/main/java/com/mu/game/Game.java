@@ -10,6 +10,8 @@ import com.mu.game.piece.PieceType;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class Game {
     static class Display extends JFrame{
@@ -31,7 +33,7 @@ public class Game {
     }
 
     public static void main(String[] args) throws Exception {
-        var board=new Board(Characteristics.getCharacteristics(Ruleset.Bell));
+        var board=new Board(Characteristics.getCharacteristics(Ruleset.Kowalski));
         System.out.println(board.getBlacks());
         var ludus=new Ludii(board);
         System.out.println(ludus);
@@ -46,5 +48,20 @@ public class Game {
             }
         }
         System.out.println("Done");
+        var count=100;
+        while (true){
+            var randomCoordinate= Coordinate.random(ludus.getBoard().getCharacteristics());
+            while (null!=ludus.getBoard().getPieceAt(randomCoordinate)
+                    && ludus.getBoard().getPieceAt(randomCoordinate).getPrimary()!=ludus.getPlayerToMove()
+                    || ludus.getBoard().getValidMoves(randomCoordinate).isEmpty()) {
+                randomCoordinate= Coordinate.random(ludus.getBoard().getCharacteristics());
+            }
+            var possibleMoves=new ArrayList<>(ludus.getBoard().getValidMoves(randomCoordinate));
+            var move=possibleMoves.get(new Random().nextInt(possibleMoves.size()));
+            System.out.println("Moving from "+randomCoordinate+" to "+move);
+            ludus.move(move, randomCoordinate);
+            display.resync();
+            Thread.sleep(count+=possibleMoves.size());
+        }
     }
 }
