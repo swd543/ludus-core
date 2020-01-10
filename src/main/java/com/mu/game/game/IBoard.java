@@ -67,6 +67,8 @@ public interface IBoard {
      */
     Map<Coordinate, PieceType> getNeighbours(Coordinate from);
 
+    Map<Coordinate, PieceType> getNeighbours(Coordinate from, BiPredicate<PieceType, PieceType> filter, boolean absoluteCoordinate);
+
     /**
      * Get the neighbours of a piece
      * @param from the coordinate relative to which the neighbours are returned

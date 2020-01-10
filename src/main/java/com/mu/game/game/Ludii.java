@@ -33,13 +33,10 @@ public class Ludii {
         var characteristics=board.getCharacteristics();
         var playerCount=board.getPieces(getPlayerToMove()).count();
         var playerDuxCount=board.getPieces(getPlayerToMove().getDux()).count();
-        System.out.println(isAllPiecesSet+" "+setDux+" "+playerToMove+" "+playerCount+" "+playerDuxCount);
         if(playerCount+playerDuxCount>=characteristics.getPiecesPerPlayer()){ isAllPiecesSet=true; setDux=false; }
         else if(playerCount==characteristics.getPiecesPerPlayer()-1){ isAllPiecesSet=false; setDux=true; }
         if (isAllPiecesSet) throw new BadMoveException("All pieces have already been set. Cannot add another. Maybe you meant move()?");
         var isSet=board.set(coordinate, characteristics.hasDux() && setDux ? playerToMove.getDux():playerToMove, true);
-        System.out.println(playerToMove.getDux());
-        System.out.println(board);
         if(isSet){switchPlayer();}
         return isSet;
     }
@@ -55,7 +52,9 @@ public class Ludii {
     public boolean isPieceCaptured(Coordinate coordinate){
         var piece=board.getPieceAt(coordinate);
         if(piece==null) return false;
-        var neighbours=board.getNeighbours(coordinate,false);
+        var neighbours=board.getNeighbours(coordinate,(a,b)->b!=null && b.getPrimary()!=piece.getPrimary(),false);
+        if(neighbours.containsKey(Coordinate.EAST) && neighbours.containsKey(Coordinate.WEST)) return true;
+        else if(neighbours.containsKey(Coordinate.NORTH) && neighbours.containsKey(Coordinate.SOUTH)) return true;
         return false;
     }
 

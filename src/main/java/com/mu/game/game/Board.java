@@ -1,5 +1,6 @@
 package com.mu.game.game;
 
+import com.mu.game.characteristics.Behaviour;
 import com.mu.game.characteristics.Characteristics;
 import com.mu.game.characteristics.Movement;
 import com.mu.game.piece.*;
@@ -99,30 +100,14 @@ public class Board implements IBoard {
             }
             // Find jump moves only if piece can jump and distance to move is 1, multiple moves and jumps undefined!
             if(movement.getDistanceCanMove()==1 && movement.isCanJump()){
-                findPossibleMovesRecursive(0, movement, set, getPieceAt(from), from, new AtomicReference<>(null));
+                var pieceType=getPieceAt(from);
+                var jumpBehaviour=(PieceType.WHITEDUX==pieceType || PieceType.BLACKDUX==pieceType)?
+                        characteristics.getDux().getJumpBehaviour():
+                        characteristics.getPrimary().getJumpBehaviour();
+                findPossibleMovesRecursive(0, movement, set, pieceType, jumpBehaviour, from, new AtomicReference<>(null));
             }
         } catch (NullPointerException ignored){ }
         return set;
-    }
-
-    @Override
-    public Map<Coordinate, PieceType> getNeighbours(Coordinate from){
-        return getNeighbours(from, (a,b)-> b!=null);
-    }
-
-    @Override
-    public Map<Coordinate, PieceType> getNeighbours(Coordinate from, boolean absoluteCoordinate){
-        return getNeighbours(from, (a,b)-> b!=null, coordinate -> false, absoluteCoordinate);
-    }
-
-    @Override
-    public Map<Coordinate, PieceType> getNeighbours(Coordinate from, BiPredicate<PieceType, PieceType> filter){
-        return getNeighbours(from, filter, coordinate -> false);
-    }
-
-    @Override
-    public Map<Coordinate, PieceType> getNeighbours(Coordinate from, BiPredicate<PieceType, PieceType> filter, Predicate<Coordinate> direction){
-        return getNeighbours(from, filter, direction, true);
     }
 
     @Override
@@ -144,6 +129,31 @@ public class Board implements IBoard {
         return map;
     }
 
+    @Override
+    public Map<Coordinate, PieceType> getNeighbours(Coordinate from){
+        return getNeighbours(from, (a,b)-> b!=null);
+    }
+
+    @Override
+    public Map<Coordinate, PieceType> getNeighbours(Coordinate from, BiPredicate<PieceType, PieceType> filter, boolean absoluteCoordinate){
+        return getNeighbours(from, filter, coordinate -> false, absoluteCoordinate);
+    }
+
+    @Override
+    public Map<Coordinate, PieceType> getNeighbours(Coordinate from, boolean absoluteCoordinate){
+        return getNeighbours(from, (a,b)-> b!=null, absoluteCoordinate);
+    }
+
+    @Override
+    public Map<Coordinate, PieceType> getNeighbours(Coordinate from, BiPredicate<PieceType, PieceType> filter){
+        return getNeighbours(from, filter, coordinate -> false);
+    }
+
+    @Override
+    public Map<Coordinate, PieceType> getNeighbours(Coordinate from, BiPredicate<PieceType, PieceType> filter, Predicate<Coordinate> direction){
+        return getNeighbours(from, filter, direction, true);
+    }
+
     public String getBoardDisplay(){
         var sb=new StringBuilder();
         for(var i=0;i<characteristics.getHeight();i++){
@@ -154,16 +164,16 @@ public class Board implements IBoard {
         return sb.toString();
     }
 
-    private void findPossibleMovesRecursive(int count, Movement movement, Set<Coordinate> possible, PieceType p, Coordinate current, AtomicReference<Coordinate> previousDirection){
+    private void findPossibleMovesRecursive(int count, Movement movement, Set<Coordinate> possible, PieceType p, BiPredicate<PieceType, PieceType> jumpBehaviour, Coordinate current, AtomicReference<Coordinate> previousDirection){
         if(count>movement.getNumberOfJumps()) return;
         if(possible.contains(current)) return;
-        var oppositeNeighbours=getNeighbours(current, (a,b)-> b!=null && p!=b, d->d.minus().equals(previousDirection.get()));
+        var oppositeNeighbours=getNeighbours(current, (a,b)-> b!=null && jumpBehaviour.test(p,b), d->d.minus().equals(previousDirection.get()));
         oppositeNeighbours.forEach(((coordinate, pieceType) -> {
             var direction=coordinate.minus(current);
             previousDirection.set(direction);
             var jumpCoord=direction.multiply(2).add(current);
             if(!jumpCoord.isValidIndex(this) || isOccupied(jumpCoord)) return;
-            findPossibleMovesRecursive(count+1, movement, possible, p, jumpCoord, previousDirection);
+            findPossibleMovesRecursive(count+1, movement, possible, p, jumpBehaviour, jumpCoord, previousDirection);
             possible.add(jumpCoord);
         }));
     }
@@ -174,12 +184,13 @@ public class Board implements IBoard {
     public Movement getCharacteristics(PieceType p) {
         switch (p){
             case BLACK:
-                return characteristics.getBlack();
+            case WHITE:
+                return characteristics.getPrimary();
             case BLACKDUX:
             case WHITEDUX:
                 return characteristics.getDux();
             default:
-                return characteristics.getWhite();
+                return null;
         }
     }
 

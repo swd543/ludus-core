@@ -13,7 +13,7 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestBoard {
-    private final Characteristics characteristics=new Characteristics();
+    private final Characteristics characteristics=Common.testCharacteristics;
     private final Set<Coordinate> locations=new HashSet<>();
 
     public TestBoard() { for(var i=0;i<characteristics.getPiecesPerPlayer();i++){ locations.add(Coordinate.random(characteristics)); } }
