@@ -1,9 +1,9 @@
 package com.mu.game.game;
 
-import com.mu.game.characteristics.Behaviour;
 import com.mu.game.characteristics.Characteristics;
 import com.mu.game.characteristics.Movement;
 import com.mu.game.piece.*;
+import com.mu.game.util.Pair;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
@@ -111,8 +111,9 @@ public class Board implements IBoard {
     }
 
     @Override
-    public Map<Coordinate, PieceType> getNeighbours(Coordinate from, BiPredicate<PieceType, PieceType> filter, Predicate<Coordinate> direction, boolean absoluteCoordinate){
+    public Pair<Map<Coordinate, PieceType>, Integer> getNeighbours(Coordinate from, BiPredicate<PieceType, PieceType> filter, Predicate<Coordinate> direction, boolean absoluteCoordinate){
         var map=new HashMap<Coordinate, PieceType>();
+        var countOfOutOfBoundsNeighbours=0;
         var piece=getPieceAt(from);
         BiFunction<Coordinate, Coordinate, Coordinate> coordinateGetter=absoluteCoordinate?
                 (absolutePosition, relativePosition)-> absolutePosition:
@@ -120,37 +121,37 @@ public class Board implements IBoard {
         for(var d:Coordinate.DIRECTIONS){
             if(direction.test(d)) continue;
             var newCoordinate=d.add(from);
-            if(!newCoordinate.isValidIndex(this)) continue;
+            if(!newCoordinate.isValidIndex(this)) { countOfOutOfBoundsNeighbours++; continue;}
             try{
                 var newPiece=getPieceAt(newCoordinate);
                 if(filter.test(piece, newPiece)){ map.put(coordinateGetter.apply(newCoordinate, d), newPiece); }
-            } catch (ArrayIndexOutOfBoundsException ignored) { }
+            } catch (ArrayIndexOutOfBoundsException ignored) { ignored.printStackTrace(); }
         }
-        return map;
+        return new Pair<>(map,countOfOutOfBoundsNeighbours);
     }
 
     @Override
-    public Map<Coordinate, PieceType> getNeighbours(Coordinate from){
+    public Pair<Map<Coordinate, PieceType>, Integer> getNeighbours(Coordinate from){
         return getNeighbours(from, (a,b)-> b!=null);
     }
 
     @Override
-    public Map<Coordinate, PieceType> getNeighbours(Coordinate from, BiPredicate<PieceType, PieceType> filter, boolean absoluteCoordinate){
+    public Pair<Map<Coordinate, PieceType>, Integer> getNeighbours(Coordinate from, BiPredicate<PieceType, PieceType> filter, boolean absoluteCoordinate){
         return getNeighbours(from, filter, coordinate -> false, absoluteCoordinate);
     }
 
     @Override
-    public Map<Coordinate, PieceType> getNeighbours(Coordinate from, boolean absoluteCoordinate){
+    public Pair<Map<Coordinate, PieceType>, Integer> getNeighbours(Coordinate from, boolean absoluteCoordinate){
         return getNeighbours(from, (a,b)-> b!=null, absoluteCoordinate);
     }
 
     @Override
-    public Map<Coordinate, PieceType> getNeighbours(Coordinate from, BiPredicate<PieceType, PieceType> filter){
+    public Pair<Map<Coordinate, PieceType>, Integer> getNeighbours(Coordinate from, BiPredicate<PieceType, PieceType> filter){
         return getNeighbours(from, filter, coordinate -> false);
     }
 
     @Override
-    public Map<Coordinate, PieceType> getNeighbours(Coordinate from, BiPredicate<PieceType, PieceType> filter, Predicate<Coordinate> direction){
+    public Pair<Map<Coordinate, PieceType>, Integer> getNeighbours(Coordinate from, BiPredicate<PieceType, PieceType> filter, Predicate<Coordinate> direction){
         return getNeighbours(from, filter, direction, true);
     }
 
@@ -168,7 +169,7 @@ public class Board implements IBoard {
         if(count>movement.getNumberOfJumps()) return;
         if(possible.contains(current)) return;
         var oppositeNeighbours=getNeighbours(current, (a,b)-> b!=null && jumpBehaviour.test(p,b), d->d.minus().equals(previousDirection.get()));
-        oppositeNeighbours.forEach(((coordinate, pieceType) -> {
+        oppositeNeighbours.getKey().forEach(((coordinate, pieceType) -> {
             var direction=coordinate.minus(current);
             previousDirection.set(direction);
             var jumpCoord=direction.multiply(2).add(current);

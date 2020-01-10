@@ -1,6 +1,8 @@
 package com.mu.game.game;
 
+import com.mu.game.characteristics.CaptureBehaviour;
 import com.mu.game.characteristics.Characteristics;
+import com.mu.game.characteristics.ICapture;
 import com.mu.game.piece.Coordinate;
 import com.mu.game.piece.PieceType;
 import com.mu.game.util.BadMoveException;
@@ -49,13 +51,11 @@ public class Ludii {
         return moved;
     }
 
-    public boolean isPieceCaptured(Coordinate coordinate){
+    public boolean isPieceCaptured(Coordinate coordinate, ICapture iCapture){
         var piece=board.getPieceAt(coordinate);
         if(piece==null) return false;
         var neighbours=board.getNeighbours(coordinate,(a,b)->b!=null && b.getPrimary()!=piece.getPrimary(),false);
-        if(neighbours.containsKey(Coordinate.EAST) && neighbours.containsKey(Coordinate.WEST)) return true;
-        else if(neighbours.containsKey(Coordinate.NORTH) && neighbours.containsKey(Coordinate.SOUTH)) return true;
-        return false;
+        return iCapture.isCaptured(piece, neighbours.getKey(), neighbours.getValue());
     }
 
     public void reset(){

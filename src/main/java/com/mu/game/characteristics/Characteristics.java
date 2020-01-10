@@ -42,7 +42,7 @@ public class Characteristics {
         switch (ruleset){
             case Ulrich:
                 return new Characteristics(8,8,
-                        new Movement().setCanJump(true).setJumpBehaviour(Behaviour.JUMP_OVER_ANY_PIECE),
+                        new Movement().setCanJump(true).setJumpBehaviour(JumpBehaviour.JUMP_OVER_ANY_PIECE),
                         new Movement().setCanJump(false).setCanMoveDiagonal(false).setDistanceCanMove(Integer.MAX_VALUE).setNumberOfJumps(0),
                         PieceType.WHITE,
                         16, // 16-24
@@ -52,7 +52,7 @@ public class Characteristics {
             case Bell:
                 return new Characteristics(7,8,
                         new Movement().setCanJump(false).setNumberOfJumps(0),
-                        new Movement().setCanJump(true).setDistanceCanMove(1).setJumpBehaviour(Behaviour.JUMP_OVER_OPPOSITE_COLOR_ONLY),
+                        new Movement().setCanJump(true).setDistanceCanMove(1).setJumpBehaviour(JumpBehaviour.JUMP_OVER_OPPOSITE_COLOR_ONLY),
                         PieceType.WHITE,
                         17,
                         true,

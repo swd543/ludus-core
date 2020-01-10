@@ -10,7 +10,7 @@ public class Movement {
     private int distanceCanMove=1;
     private int numberOfJumps=Integer.MAX_VALUE;
 
-    private BiPredicate<PieceType, PieceType> jumpBehaviour=Behaviour.JUMP_OVER_OPPOSITE_COLOR_ONLY;
+    private BiPredicate<PieceType, PieceType> jumpBehaviour= JumpBehaviour.JUMP_OVER_OPPOSITE_COLOR_ONLY;
 
     public boolean isCanMoveDiagonal() { return canMoveDiagonal; }
 

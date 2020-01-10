@@ -52,9 +52,7 @@ public class Coordinate {
 
     @Override
     public String toString() {
-        return "<" + x +
-                ","+ y +
-                '>';
+        return String.format("<%-1s,%-1s>",x,y);
     }
 
     @Override

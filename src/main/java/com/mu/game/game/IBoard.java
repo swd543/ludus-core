@@ -4,6 +4,7 @@ import com.mu.game.characteristics.Characteristics;
 import com.mu.game.piece.Coordinate;
 import com.mu.game.piece.PieceType;
 import com.mu.game.piece.Pieces;
+import com.mu.game.util.Pair;
 
 import java.util.Map;
 import java.util.Set;
@@ -63,43 +64,49 @@ public interface IBoard {
     /**
      * Get the neighbours of a piece
      * @param from the coordinate relative to which the neighbours are returned
-     * @return neighbours
+     * @return <neighbours, number of access exceptions>
      */
-    Map<Coordinate, PieceType> getNeighbours(Coordinate from);
+    Pair<Map<Coordinate, PieceType>, Integer> getNeighbours(Coordinate from);
 
-    Map<Coordinate, PieceType> getNeighbours(Coordinate from, BiPredicate<PieceType, PieceType> filter, boolean absoluteCoordinate);
+    /**
+     * @param from the coordinate relative to which the neighbours are returned
+     * @param filter the filter function, accepting (currentCoordinate, newCoordinate)->logic
+     * @param absoluteCoordinate the direction function, accepting (direction)->logic
+     * @return <neighbours, number of access exceptions>
+     */
+    Pair<Map<Coordinate, PieceType>, Integer> getNeighbours(Coordinate from, BiPredicate<PieceType, PieceType> filter, boolean absoluteCoordinate);
 
     /**
      * Get the neighbours of a piece
      * @param from the coordinate relative to which the neighbours are returned
      * @param absoluteCoordinate the direction function, accepting (direction)->logic
-     * @return neighbours
+     * @return <neighbours, number of access exceptions>
      */
-    Map<Coordinate, PieceType> getNeighbours(Coordinate from, boolean absoluteCoordinate);
+    Pair<Map<Coordinate, PieceType>, Integer> getNeighbours(Coordinate from, boolean absoluteCoordinate);
 
     /**
      * Get the neighbours based upon a filter logic
      * @param from the coordinate relative to which the neighbours are returned
      * @param filter the filter function, accepting (currentCoordinate, newCoordinate)->logic
-     * @return neighbours
+     * @return <neighbours, number of access exceptions>
      */
-    Map<Coordinate, PieceType> getNeighbours(Coordinate from, BiPredicate<PieceType, PieceType> filter);
+    Pair<Map<Coordinate, PieceType>, Integer> getNeighbours(Coordinate from, BiPredicate<PieceType, PieceType> filter);
 
     /**
      * Get the neighbours based upon a filter logic and direction
      * @param from the coordinate relative to which the neighbours are returned
      * @param filter the filter function, accepting (currentCoordinate, newCoordinate)->logic
      * @param direction the direction function, accepting (direction)->logic
-     * @return neighbours
+     * @return <neighbours, number of access exceptions>
      */
-    Map<Coordinate, PieceType> getNeighbours(Coordinate from, BiPredicate<PieceType, PieceType> filter, Predicate<Coordinate> direction);
+    Pair<Map<Coordinate, PieceType>, Integer> getNeighbours(Coordinate from, BiPredicate<PieceType, PieceType> filter, Predicate<Coordinate> direction);
 
     /**
      * @param from the coordinate relative to which the neighbours are returned
      * @param filter the filter function, accepting (currentCoordinate, newCoordinate)->logic
      * @param direction the direction function, accepting (direction)->logic
      * @param absoluteCoordinate return position relative to from (false) or absolute position
-     * @return
+     * @return  <neighbours, number of access exceptions>
      */
-    Map<Coordinate, PieceType> getNeighbours(Coordinate from, BiPredicate<PieceType, PieceType> filter, Predicate<Coordinate> direction, boolean absoluteCoordinate);
+    Pair<Map<Coordinate, PieceType>, Integer> getNeighbours(Coordinate from, BiPredicate<PieceType, PieceType> filter, Predicate<Coordinate> direction, boolean absoluteCoordinate);
 }

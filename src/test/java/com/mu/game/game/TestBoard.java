@@ -72,21 +72,21 @@ public class TestBoard {
         for(var d:Coordinate.DIRECTIONS){ l.add(d.add(a)); }
         board.set(a, PieceType.WHITE, true);
         for(var c:l){ board.set(c, PieceType.BLACK, true); }
-        var neighbours=board.getNeighbours(a);
+        var neighbours=board.getNeighbours(a).getKey();
         assertEquals(neighbours.size(),4,"Correct number of opposite neighbours?");
         neighbours.forEach((c,p)->assertEquals(p, PieceType.BLACK, "All opposite neighbours correctly expressed?"));
         for(var c:l){ board.set(c, PieceType.BLACK, false); board.set(c, PieceType.WHITE, true); }
-        neighbours=board.getNeighbours(a);
+        neighbours=board.getNeighbours(a).getKey();
         assertEquals(neighbours.size(),4,"Correct number of same neighbours?");
         neighbours.forEach((c,p)->assertEquals(p, PieceType.WHITE, "All same neighbours correctly expressed?"));
         var b=new Coordinate(characteristics.getWidth()-1, characteristics.getHeight()-1);
         var d=new Coordinate[]{Coordinate.NORTH, Coordinate.EAST};
         board.set(b, PieceType.WHITE, true);
         Arrays.stream(d).forEach(x->board.set(x.add(b), PieceType.WHITE, true));
-        neighbours=board.getNeighbours(b);
+        neighbours=board.getNeighbours(b).getKey();
         assertEquals(neighbours.size(),2,"Correct number of edge neighbours?");
         neighbours.forEach((c,p)->assertEquals(p, PieceType.WHITE, "Gets neighbours even edge of the board?"));
-        neighbours=board.getNeighbours(b, false);
+        neighbours=board.getNeighbours(b, false).getKey();
         assertEquals(neighbours.size(),2,"Correct number of edge neighbours?");
         assertTrue(neighbours.containsKey(Coordinate.EAST), "Neighbours contain relative EAST?");
         assertTrue(neighbours.containsKey(Coordinate.NORTH), "Neighbours contain relative NORTH?");
