@@ -83,7 +83,6 @@ public class TestBoard {
         var d=new Coordinate[]{Coordinate.NORTH, Coordinate.EAST};
         board.set(b, PieceType.WHITE, true);
         Arrays.stream(d).forEach(x->board.set(x.add(b), PieceType.WHITE, true));
-        System.out.println(board);
         neighbours=board.getNeighbours(b);
         assertEquals(neighbours.size(),2,"Correct number of edge neighbours?");
         neighbours.forEach((c,p)->assertEquals(p, PieceType.WHITE, "Gets neighbours even edge of the board?"));

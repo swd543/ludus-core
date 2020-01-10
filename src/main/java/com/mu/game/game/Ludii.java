@@ -52,12 +52,12 @@ public class Ludii {
         return moved;
     }
 
-//    public boolean isPieceCaptured(Coordinate coordinate){
-//        var piece=board.getPieceAt(coordinate);
-//        var neighbours=board.getNeighbours(coordinate,false);
-//        System.out.println(neighbours);
-//        return false;
-//    }
+    public boolean isPieceCaptured(Coordinate coordinate){
+        var piece=board.getPieceAt(coordinate);
+        if(piece==null) return false;
+        var neighbours=board.getNeighbours(coordinate,false);
+        return false;
+    }
 
     public void reset(){
         board.reset();
